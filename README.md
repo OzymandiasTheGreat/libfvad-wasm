@@ -6,17 +6,17 @@ After looking around for a bit I realized that my best bet would be to use
 VAD library extracted from WebRTC project compiled to WASM.
 
 This would run on Android through NativeScript, and in browsers and recent versions
-of Node natively. The only downside I could think of, was no iOS support, since WASM
+of Node natively. The only downside I could think of, was no iOS support since WASM
 isn't allowed in apps by Apple.
 
-I first discovered Mozilla-owned repository that contained wetrtc_vad code extracted
+I first discovered a Mozilla-owned repository that contained WebRTC_VAD code extracted
 and compiled with Emscripten. That was a great starting point, although ultimately
 not viable since it contained too much unnecessary C code and the whole repository
 seems abandoned.
 
 Then, in my search, I found libfvad. This project is fairly active, contains no unnecessary code,
 and even packages VAD in easy-to-consume API. So I decided to go with this and package it with
-Emscripten so it can be ran anywhere.
+Emscripten so it can be run anywhere.
 
 So here we are. On to the API reference.
 
@@ -28,10 +28,10 @@ To use it with NativeScript, you shouldn't need anything extra, as {N} imports e
 by default.
 There are also typings provided.
 
-The main default export is an async function that resolve to class constructor VAD.
-There are also to named exports VADMode and VADEvent;
+The main default export is an async function that resolves to class constructor VAD.
+There are also a few named exports VADMode, VADEvent, and VAD_FRAME;
 
-VADMode defines the aggressiveness of vad. Higher mode means less false positives and
+VADMode defines the aggressiveness of VAD. Higher mode means fewer false positives and
 potentially more missed utterances. The available modes are:
 
 - NORMAL
@@ -39,7 +39,10 @@ potentially more missed utterances. The available modes are:
 - AGGRESSIVE (this seems to work best in most situations)
 - VERY_AGGRESSIVE
 
-VADEvent is an enum with these members `{ ERROR, SILENCE, VOICE }`;
+VADEvent is an enum with these members `{ ERROR, SILENCE, VOICE }`.
+
+VAD_FRAME is a constant size of a single frame processed by VAD. For best results
+your buffer should be divisible by VAD_FRAME.
 
 ```typescript
 VAD(mode: VADMode, rate: number);
@@ -48,14 +51,14 @@ VAD(mode: VADMode, rate: number);
 // which is incompatible with this library
 static VAD.floatTo16BitPCM(buffer: Float32Array): Int16Array;
 
-// Single frame processing, used internally. Not very useful on it's own
+// Single frame processing used internally. Not very useful on its own
 VAD.processFrame(frame: Int16Array): VADEvent;
 
 // Buffer processing, larger buffers return more accurate results
 VAD.processBuffer(buffer: Buffer | ArrayBufferView): VADEvent;
 
-// Free the resources used by this instance. Instance is not usable afterwards
+// Free the resources used by this instance. The instance is not usable afterward
 VAD.destroy(): void;
 ```
 
-You can also find the C api as exported by `dist/libfvad.wasm` in `include/fvad.h`.
+You can also find the C API as exported by `dist/libfvad.wasm` in `include/fvad.h`.

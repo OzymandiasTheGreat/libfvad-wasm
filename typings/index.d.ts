@@ -1,3 +1,6 @@
+declare const VAD_FRAME: number;
+
+
 declare enum VADMode {
 	NORMAL = 0,
 	LOW_BITRATE = 1,
@@ -27,4 +30,4 @@ declare class VAD {
 declare function VADBuilder(): Promise<typeof VAD>;
 
 
-export { VADBuilder as default, VADMode, VADBuilder }
+export { VADBuilder as default, VADMode, VADBuilder, VAD_FRAME }
