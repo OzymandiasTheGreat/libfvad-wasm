@@ -9,7 +9,7 @@
 <body>
 	<h1 id="output" ></h1>
 	<script type="module" >
-		import VADBuilder, { VADMode, VADEvent } from "../../js/index.js";
+		import VADBuilder, { VADMode, VADEvent } from "./embedded.js";
 
 		const output = document.getElementById("output");
 		const VAD = await VADBuilder();
