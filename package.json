@@ -1,0 +1,27 @@
+{
+  "name": "@ozymandiasthegreat/vad",
+  "description": "libfvad compiled to WASM to run in browsers, Node, and NativeScript",
+  "version": "2.0.0",
+  "author": {
+    "name": "Tomas Ravinskas",
+    "email": "tomas.rav@gmail.com"
+  },
+  "main": "js/index.js",
+  "module": "js/embedded.js",
+  "typings": "typings/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/OzymandiasTheGreat/libfvad-wasm/issues"
+  },
+  "homepage": "https://github.com/OzymandiasTheGreat/libfvad-wasm/#readme",
+  "keywords": [
+    "libfvad",
+    "webrtc",
+    "vad",
+    "wasm"
+  ],
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:OzymandiasTheGreat/libfvad-wasm.git"
+  }
+}

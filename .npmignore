@@ -1,0 +1,15 @@
+debian
+dist/.gitkeep
+examples
+include
+m4
+src
+tests
+tools
+.travis.yml
+base64.txt
+build.sh
+CMakeLists.txt
+configure.ac
+libfvad.pc.in
+Makefile.am

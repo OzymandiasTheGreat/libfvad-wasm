@@ -1,6 +1,12 @@
 # Names should be added to this file like so:
 # Name or Organization <email address>
 
+
+#
+# Author of WASM port:
+#
+Tomas Ravinskas <tomas.rav@gmail.com>
+
 #
 # Author of libfvad:
 #

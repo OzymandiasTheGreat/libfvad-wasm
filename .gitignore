@@ -7,3 +7,5 @@
 Makefile.in
 /m4/libtool.m4
 /m4/lt*.m4
+/dist/libfvad.wasm
+base64.txt

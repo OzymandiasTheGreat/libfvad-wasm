@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>libfvad</title>
+</head>
+<body>
+	<h1 id="output" ></h1>
+	<script type="module" >
+		import VADBuilder, { VADMode, VADEvent } from "../../js/index.js";
+
+		const output = document.getElementById("output");
+		const VAD = await VADBuilder();
+		const vad = new VAD(VADMode.VERY_AGGRESSIVE, 48000);
+
+		const worklet = `
+		class AudioProc extends AudioWorkletProcessor {
+			constructor() {
+				super();
+			}
+
+			process(inputs, outputs, params) {
+				this.port.postMessage(inputs[0][0]);
+				return true;
+			}
+		}
+		registerProcessor("audio-proc", AudioProc);`;
+
+		navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+		.then((stream) => {
+			const context = new AudioContext();
+			const source = context.createMediaStreamSource(stream);
+
+			const blob = new Blob([worklet], { type: "text/javascript" });
+			const uri = URL.createObjectURL(blob);
+
+			context.audioWorklet.addModule(uri).then(() => {
+				const node = new AudioWorkletNode(context, "audio-proc");
+				node.port.onmessage = (event) => {
+					const res = vad.processBuffer(VAD.floatTo16BitPCM(event.data));
+					switch (res) {
+						case VADEvent.SILENCE:
+							output.innerText = "SILENCE...";
+							break;
+						case VADEvent.VOICE:
+							output.innerText = "VOICE!";
+							break;
+						case VADEvent.ERROR:
+							output.innerText = "ERROR";
+							break;
+					}
+				};
+
+				source.connect(node).connect(context.destination);
+			});
+		});
+	</script>
+</body>
+</html>
