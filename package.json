@@ -6,8 +6,8 @@
     "name": "Tomas Ravinskas",
     "email": "tomas.rav@gmail.com"
   },
-  "main": "js/index.js",
-  "module": "js/embedded.js",
+  "main": "lib/index.js",
+  "module": "lib/embedded.js",
   "typings": "typings/index.d.ts",
   "bugs": {
     "url": "https://github.com/OzymandiasTheGreat/libfvad-wasm/issues"
@@ -19,7 +19,7 @@
     "vad",
     "wasm"
   ],
-  "license": "MPL-2.0",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git@github.com:OzymandiasTheGreat/libfvad-wasm.git"
