@@ -9,3 +9,7 @@ Makefile.in
 /m4/lt*.m4
 /dist/libfvad.wasm
 base64.txt
+**/node_modules
+**/hooks
+**/platforms
+**/package-lock.json

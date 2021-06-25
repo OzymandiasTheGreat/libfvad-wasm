@@ -30,4 +30,4 @@ declare class VAD {
 declare function VADBuilder(): Promise<typeof VAD>;
 
 
-export { VADBuilder as default, VADMode, VADBuilder, VAD_FRAME }
+export { VADBuilder as default, VADMode, VADEvent, VAD_FRAME }
