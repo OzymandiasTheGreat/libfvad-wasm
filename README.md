@@ -62,3 +62,27 @@ VAD.destroy(): void;
 ```
 
 You can also find the C API as exported by `dist/libfvad.wasm` in `include/fvad.h`.
+
+## Examples
+
+### Web
+
+You can find a browser example in the `./docs`.
+As of this writing, it only works in Chrome, since JavaScript private fields (#)
+are used in the library. You can also see it live in your browser [here](https://ozymandiasthegreat.github.io/libfvad-wasm)
+
+### Node
+
+You can find example code in the `./examples/node`. Just `cd` in there and run `node ./index.js`.
+The sample script only runs on Linux!
+However it's only a few lines of code, so it's exceedingly easy to adapt it to your OS.
+
+### NativeScript
+
+Again, WASM is only supported on Android. Blame Apple.
+
+To run sample app, `cd ./examples/nativescript` and run `ns run android`.
+That's it.
+
+The sample uses a worker thread to run audio recording loop in the background
+and communicates with the main app asynchronously.
