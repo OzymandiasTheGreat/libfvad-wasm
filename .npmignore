@@ -13,3 +13,4 @@ CMakeLists.txt
 configure.ac
 libfvad.pc.in
 Makefile.am
+docs
