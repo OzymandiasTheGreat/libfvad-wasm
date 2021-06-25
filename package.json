@@ -9,6 +9,7 @@
   "main": "lib/index.js",
   "module": "lib/embedded.js",
   "typings": "typings/index.d.ts",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/OzymandiasTheGreat/libfvad-wasm/issues"
   },
