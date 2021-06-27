@@ -14,6 +14,7 @@
 		const output = document.getElementById("output");
 		const VAD = await VADBuilder();
 		const vad = new VAD(VADMode.VERY_AGGRESSIVE, 48000);
+		const bufferSize = vad.getMinBufferSize(128);  // Audio worklet pumps 'em in frames
 
 		const worklet = `
 		class AudioProc extends AudioWorkletProcessor {
@@ -38,18 +39,31 @@
 
 			context.audioWorklet.addModule(uri).then(() => {
 				const node = new AudioWorkletNode(context, "audio-proc");
+				let buffer = new Int16Array(bufferSize);
+				let offset = 0;
 				node.port.onmessage = (event) => {
-					const res = vad.processBuffer(VAD.floatTo16BitPCM(event.data));
-					switch (res) {
-						case VADEvent.SILENCE:
-							output.innerText = "SILENCE...";
-							break;
-						case VADEvent.VOICE:
-							output.innerText = "VOICE!";
-							break;
-						case VADEvent.ERROR:
-							output.innerText = "ERROR";
-							break;
+					const frame = VAD.floatTo16BitPCM(event.data);
+					for (let i = 0; i < frame.length; i++) {
+						if (offset < bufferSize) {
+							buffer[offset] = frame[i];
+							offset++;
+						} else {
+							const res = vad.processBuffer(buffer);
+							switch (res) {
+								case VADEvent.SILENCE:
+									output.innerText = "SILENCE...";
+									break;
+								case VADEvent.VOICE:
+									output.innerText = "VOICE!";
+									break;
+								case VADEvent.ERROR:
+									output.innerText = "ERROR";
+									break;
+							}
+							offset = 0;
+							buffer = new Int16Array(bufferSize);
+							buffer[offset] = frame[i];
+						}
 					}
 				};
 

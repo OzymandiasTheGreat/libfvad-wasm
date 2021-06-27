@@ -1,4 +1,4 @@
-declare const VAD_FRAME: number;
+declare const FRAME_SIZE: Record<number, number[]>;
 
 
 declare enum VADMode {
@@ -21,6 +21,7 @@ declare class VAD {
 
 	static floatTo16BitPCM(buffer: Float32Array): Int16Array;
 
+	getMinBufferSize(bufferSize: number): number;
 	processFrame(frame: Int16Array): VADEvent;
 	processBuffer(buffer: Buffer | ArrayBufferView): VADEvent;
 	destroy(): void;
@@ -30,4 +31,4 @@ declare class VAD {
 declare function VADBuilder(): Promise<typeof VAD>;
 
 
-export { VADBuilder as default, VADMode, VADEvent, VAD_FRAME }
+export { VADBuilder as default, VADMode, VADEvent, FRAME_SIZE }

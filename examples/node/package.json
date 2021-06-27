@@ -7,6 +7,7 @@
   "author": "Tomas Ravinaskas <tomas.rav@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@ozymandiasthegreat/vad": "file:../.."
+    "@ozymandiasthegreat/vad": "file:../..",
+    "block-stream2": "^2.1.0"
   }
 }

@@ -1,35 +1,32 @@
 import "globals";
-import VADBuilder, { VADMode, VADEvent, VAD_FRAME } from "@ozymandiasthegreat/vad";
-import { lcm } from "./math";
-
-
-const SAMPLE_RATE = 16000;
-// Use Least Common Multiple of MinBufferSize and VAD_FRAME to avoid padding frames
-const BUFFER_SIZE = lcm(VAD_FRAME, android.media.AudioRecord.getMinBufferSize(
-	SAMPLE_RATE,
-	android.media.AudioFormat.CHANNEL_IN_MONO,
-	android.media.AudioFormat.ENCODING_PCM_8BIT,
-));
-const BUFFER = Array.create("byte", BUFFER_SIZE);
-const recorder = new android.media.AudioRecord(
-	android.media.MediaRecorder.AudioSource.VOICE_RECOGNITION,
-	SAMPLE_RATE,
-	android.media.AudioFormat.CHANNEL_IN_MONO,
-	android.media.AudioFormat.ENCODING_PCM_8BIT,
-	BUFFER_SIZE,
-);
+import VADBuilder, { VADMode, VADEvent } from "@ozymandiasthegreat/vad";
 
 
 self.onmessage = (msg: MessageEvent) => {
 	switch (msg.data) {
 		case "START":
 			VADBuilder().then((VAD) => {
-				const vad = new VAD(VADMode.LOW_BITRATE, 16000);
+				const SAMPLE_RATE = 16000;
+				const vad = new VAD(VADMode.VERY_AGGRESSIVE, SAMPLE_RATE);
+				const BUFFER_SIZE = vad.getMinBufferSize(android.media.AudioRecord.getMinBufferSize(
+					SAMPLE_RATE,
+					android.media.AudioFormat.CHANNEL_IN_MONO,
+					android.media.AudioFormat.ENCODING_PCM_16BIT,
+				));
+				const BUFFER = Array.create("byte", BUFFER_SIZE);
+				const recorder = new android.media.AudioRecord(
+					android.media.MediaRecorder.AudioSource.VOICE_RECOGNITION,
+					SAMPLE_RATE,
+					android.media.AudioFormat.CHANNEL_IN_MONO,
+					android.media.AudioFormat.ENCODING_PCM_16BIT,
+					BUFFER_SIZE,
+				);
+
 				recorder.startRecording();
 				while (true) {
 					recorder.read(BUFFER, 0, BUFFER_SIZE, 0);
 					// If there's easier way convert data to format VAD can consume, tell me
-					const res = vad.processBuffer(Int16Array.from(Uint8Array.from(BUFFER)));
+					const res = vad.processBuffer(new Int16Array(Uint8Array.from(BUFFER).buffer));
 					switch (res) {
 						case VADEvent.ERROR:
 							// Typescript has wrong signature for postMessage
