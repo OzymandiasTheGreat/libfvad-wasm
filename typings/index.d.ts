@@ -1,3 +1,6 @@
+import type { Buffer } from "buffer";
+
+
 declare const FRAME_SIZE: Record<number, number[]>;
 
 
@@ -31,4 +34,5 @@ declare class VAD {
 declare function VADBuilder(): Promise<typeof VAD>;
 
 
+export type { VAD };
 export { VADBuilder as default, VADMode, VADEvent, FRAME_SIZE }

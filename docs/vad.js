@@ -85,10 +85,10 @@ export default async function(binary) {
 			}
 
 			const moduli = FRAME_SIZE[this.sampleRate].map((s) => buffer.length % s);
-			const frameSize = FRAME_SIZE[this.sampleRate][moduli.indexOf(0)];
+			let frameSize = FRAME_SIZE[this.sampleRate][moduli.indexOf(0)];
 
 			if (!frameSize) {
-				throw new Error("Uneven buffer, use getMinBufferSize()");
+				frameSize = 480;
 			}
 
 			const results = [];
