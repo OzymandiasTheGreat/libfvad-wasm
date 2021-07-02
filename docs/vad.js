@@ -99,7 +99,7 @@ export default async function(binary) {
 				results.push(this.processFrame(frame));
 			}
 
-			const sum = results.reduce((a, b) => a + b);
+			const sum = results.reduce((a, b) => a + b, 0);
 			const count = results.filter((v) => v > 0).length;
 			if (!sum) {
 				return VADEvent.SILENCE;
