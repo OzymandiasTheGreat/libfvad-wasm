@@ -29,9 +29,8 @@ export default async function(binary) {
 	const libfvad = instance.exports;
 
 	class VAD {
-		_destroyed = false;
-
 		constructor(mode, rate) {
+			this._destroyed = false;
 			this._handle = libfvad.fvad_new();
 
 			if (!this._handle) {
