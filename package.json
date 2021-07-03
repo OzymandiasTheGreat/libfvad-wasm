@@ -1,7 +1,7 @@
 {
   "name": "@ozymandiasthegreat/vad",
   "description": "libfvad compiled to WASM to run in browsers, Node, and NativeScript",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "author": {
     "name": "Tomas Ravinskas",
     "email": "tomas.rav@gmail.com"
