@@ -30,7 +30,7 @@ function parse(string, encoding = base64Encoding, opts = {}) {
 	}
 
 	// Allocate the output:
-	const out = new (opts.out ?? Uint8Array)(
+	const out = new (opts.out || Uint8Array)(
 		((end * encoding.bits) / 8) | 0
 	)
 
